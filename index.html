@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App - Welcome</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #121212;
+            color: #202020;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+            background: url('https://static.vecteezy.com/system/resources/thumbnails/035/589/613/small_2x/ai-generated-business-woman-portrait-isolated-on-a-transparent-background-free-png.png') no-repeat center center/cover;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: fadeIn 1.5s ease-in-out, glowEffect 2s infinite alternate ease-in-out;
+            text-shadow: 0 0 10px teal;
+            color: teal;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.8;
+            color: teal;
+        }
+        .start-btn {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            color: #121212;
+            background: teal;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 10px teal;
+            animation: glowEffect 2s infinite alternate ease-in-out;
+        }
+        .start-btn:hover {
+            transform: scale(1.1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes glowEffect {
+            from { text-shadow: 0 0 10px teal; box-shadow: 0 0 10px teal; }
+            to { text-shadow: 0 0 20px teal; box-shadow: 0 0 20px teal; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Quiz App</h1>
+    <p>Test your knowledge and have fun!</p>
+    <button class="start-btn" onclick="startQuiz()">Start Quiz</button>
+
+    <script>
+        function startQuiz() {
+            window.location.href = 'quiz.html'; // Change this to your quiz page
+        }
+    </script>
+</body>
+</html>
+
+

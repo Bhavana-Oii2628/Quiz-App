@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        /* Dark Mode Background */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #121212;
+            color: white;
+        }
+
+        /* Quiz Box with Transparent Background Image */
+        #quiz-container {
+            width: 50%;
+            max-width: 500px;
+            background: rgba(30, 30, 30, 0.85) url('https://static.vecteezy.com/system/resources/thumbnails/048/219/820/small/beautiful-girl-thinking-on-transparent-background-free-png.png') center/cover no-repeat;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Title - Teal Glowing Effect */
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+            color: #008080;
+            text-shadow: 0 0 10px #008080, 0 0 20px #008080, 0 0 30px #008080;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        /* Glow Animation */
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px #008080, 0 0 20px #008080, 0 0 30px #008080; }
+            100% { text-shadow: 0 0 20px #008080, 0 0 30px #008080, 0 0 40px #008080; }
+        }
+
+        /* Question */
+        h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        /* Option Buttons */
+        .option-button {
+            display: block;
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            background: #008080;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0px 5px 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .option-button:hover {
+            background: #004d4d;
+            transform: scale(1.05);
+        }
+
+        /* Timer */
+        #timer {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffcc80;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Quiz App</h1>
+        <h2 id="question"></h2>
+        <div id="options"></div>
+        <p id="timer">Time Left: <span id="time">15</span> sec</p>
+    </div>
+
+    <script>
+        const questions = [
+    {
+        question: "What is JavaScript primarily used for?",
+        options: ["Styling", "Database Management", "Web Development", "Networking"],
+        answer: "Web Development"
+    },
+    {
+        question: "Which of the following is NOT a JavaScript data type?",
+        options: ["String", "Boolean", "Integer", "Undefined"],
+        answer: "Integer"
+    },
+    {
+        question: "How do you declare a JavaScript variable?",
+        options: ["var name;", "variable name;", "v name;", "declare name;"],
+        answer: "var name;"
+    },
+    {
+        question: "Which function is used to print content to the console?",
+        options: ["log.console()", "console.log()", "print()", "display()"],
+        answer: "console.log()"
+    },
+    {
+        question: "Which keyword is used to define a constant variable in JavaScript?",
+        options: ["var", "let", "const", "static"],
+        answer: "const"
+    },
+    {
+        question: "What does PHP stand for?",
+        options: ["Personal Home Page", "Preprocessed Hypertext Page", "Hypertext Preprocessor", "Private Hosting Protocol"],
+        answer: "Hypertext Preprocessor"
+    },
+    {
+        question: "Which symbol is used for variable declaration in PHP?",
+        options: ["#", "@", "$", "%"],
+        answer: "$"
+    },
+    {
+        question: "Which function is used to connect to a MySQL database in PHP?",
+        options: ["connect_db()", "mysql_connect()", "mysqli_connect()", "db_connect()"],
+        answer: "mysqli_connect()"
+    },
+    {
+        question: "How do you end a PHP statement?",
+        options: [".", ";", "!", ":"],
+        answer: ";"
+    },
+    {
+        question: "Which PHP superglobal is used to collect form data?",
+        options: ["$_POST", "$_SESSION", "$_DATA", "$_REQUEST"],
+        answer: "$_POST"
+    },
+    {
+        question: "Which JavaScript framework is developed by Facebook?",
+        options: ["Angular", "Vue", "React", "Svelte"],
+        answer: "React"
+    },
+    {
+        question: "Which PHP function is used to include files?",
+        options: ["include()", "require()", "Both", "None"],
+        answer: "Both"
+    },
+    {
+        question: "How do you write a function in JavaScript?",
+        options: ["function myFunc() {}", "def myFunc() {}", "func myFunc() {}", "method myFunc() {}"],
+        answer: "function myFunc() {}"
+    },
+    {
+        question: "Which function is used to convert a string to uppercase in JavaScript?",
+        options: ["toUpperCase()", "toLowerCase()", "capitalize()", "upper()"],
+        answer: "toUpperCase()"
+    },
+    {
+        question: "Which PHP function is used to count elements in an array?",
+        options: ["sizeOf()", "length()", "count()", "elements()"],
+        answer: "count()"
+    },
+    {
+        question: "Which JavaScript event is triggered when a user clicks an element?",
+        options: ["onchange", "onmouseover", "onclick", "onload"],
+        answer: "onclick"
+    },
+    {
+        question: "Which PHP function is used to sanitize input data?",
+        options: ["sanitize()", "validate()", "filter_var()", "clean_input()"],
+        answer: "filter_var()"
+    },
+    {
+        question: "Which JavaScript method adds an element to the end of an array?",
+        options: ["push()", "pop()", "shift()", "unshift()"],
+        answer: "push()"
+    },
+    {
+        question: "Which PHP loop is used to iterate over an array?",
+        options: ["for", "foreach", "while", "do-while"],
+        answer: "foreach"
+    },
+    {
+        question: "Which JavaScript function removes the last element from an array?",
+        options: ["pop()", "push()", "shift()", "splice()"],
+        answer: "pop()"
+    },
+    {
+        question: "Which PHP function sorts an array in ascending order?",
+        options: ["sort()", "order()", "arrange()", "shuffle()"],
+        answer: "sort()"
+    },
+    {
+        question: "Which JavaScript function is used to delay execution?",
+        options: ["setTimeout()", "setInterval()", "delay()", "wait()"],
+        answer: "setTimeout()"
+    },
+    {
+        question: "Which PHP function converts a string to lowercase?",
+        options: ["strtolower()", "lowercase()", "tolower()", "strlower()"],
+        answer: "strtolower()"
+    },
+    {
+        question: "Which PHP function is used to get the length of a string?",
+        options: ["strlen()", "length()", "count()", "size()"],
+        answer: "strlen()"
+    }
+];
+
+        let currentQuestionIndex;
+        let score;
+        let timeLeft;
+        let timer;
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            loadQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            timeLeft = 15;
+            document.getElementById("time").innerText = timeLeft;
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById("time").innerText = timeLeft;
+                if (timeLeft === 0) {
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                return showResult();
+            }
+
+            const questionElement = document.getElementById("question");
+            const optionsElement = document.getElementById("options");
+
+            questionElement.innerText = questions[currentQuestionIndex].question;
+            optionsElement.innerHTML = "";
+
+            questions[currentQuestionIndex].options.forEach(option => {
+                const button = document.createElement("button");
+                button.innerText = option;
+                button.classList.add("option-button");
+                button.onclick = () => checkAnswer(option);
+                optionsElement.appendChild(button);
+            });
+
+            startTimer();
+        }
+
+        function checkAnswer(selectedAnswer) {
+            clearInterval(timer);
+            if (selectedAnswer === questions[currentQuestionIndex].answer) {
+                score++;
+            }
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            clearInterval(timer);
+            document.getElementById("quiz-container").innerHTML = `
+                <h2>Your Score: ${score} / ${questions.length}</h2>
+                <button onclick='restartQuiz()' class='option-button'>Restart</button>
+            `;
+        }
+
+        function restartQuiz() {
+            document.getElementById("quiz-container").innerHTML = `
+                <h1>Quiz App</h1>
+                <h2 id="question"></h2>
+                <div id="options"></div>
+                <p id="timer">Time Left: <span id="time">15</span> sec</p>
+            `;
+            startQuiz();
+        }
+
+        document.addEventListener("DOMContentLoaded", startQuiz);
+    </script>
+</body>
+</html>
